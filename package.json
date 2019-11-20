@@ -16,6 +16,8 @@
     "pg": "^7.13.0"
   },
   "devDependencies": {
+    "@types/knex": "^0.16.1",
+    "babel-eslint": "^10.0.3",
     "eslint": "^6.6.0",
     "prettier": "^1.19.1"
   }
