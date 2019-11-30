@@ -1,9 +1,11 @@
-exports.up = function(knex) {
+exports.up = knex => {
 	return knex.schema
 		.createTable('user', table => {
 			table.increments('id').primary();
-			table.string('name').notNullable();
-			table.string('email');
+			table.string('name')
+				.notNullable();
+			table.string('email')
+				.notNullable();
 			table.boolean('admin');
 			table.string('slack_username');
 			table.string('twitch_username');
@@ -17,23 +19,23 @@ exports.up = function(knex) {
 			table.string('abbreviation');
 			table.string('twitter_handle');
 			table.string('meetup_url_name');
-			table.integer('meetup_weekday');
-			table.integer('meetup_week');
+			table.integer('meetup_weekday')
+				.unsigned();
+			table.integer('meetup_week')
+				.unsigned();
 			table.datetime('meetup_time');
-			table
-				.integer('mgmt_team_contact_id')
-				.unsigned()
-				.notNullable();
+			table.integer('mgmt_team_contact_id')
+				.unsigned();
 			table.string('logo_link');
 
-			table
-				.foreign('mgmt_team_contact_id')
+			table.foreign('mgmt_team_contact_id')
 				.references('id')
 				.inTable('user');
 		})
 		.createTable('location', table => {
 			table.increments('id').primary();
-			table.string('name');
+			table.string('name')
+				.notNullable();
 			table.string('address');
 			table.string('city');
 			table.string('state');
@@ -41,11 +43,12 @@ exports.up = function(knex) {
 		})
 		.createTable('event', table => {
 			table.increments('id').primary();
-			table
-				.integer('group_id')
+			table.integer('group_id')
 				.unsigned()
 				.notNullable();
-			table.integer('location_id').unsigned();
+			table.integer('location_id')
+				.unsigned()
+				.notNullable();
 			table.string('meetup_id');
 			table.string('title');
 			table.datetime('start_time');
@@ -54,64 +57,124 @@ exports.up = function(knex) {
 			table.boolean('speaker_form');
 			table.boolean('venue_booked');
 
-			table
-				.foreign('group_id')
+			table.foreign('group_id')
 				.references('id')
 				.inTable('group');
 
-			table
-				.foreign('location_id')
+			table.foreign('location_id')
 				.references('id')
 				.inTable('location');
 		})
+		.createTable('video', table => {
+			table.increments('id').primary();
+			table.integer('parent_id')
+				.unsigned();
+			table.string('twitch_id');
+			table.string('youtube_id');
+			table.integer('event_id')
+				.unsigned();
+			table.string('title');
+			table.text('description');
+
+			table.foreign('parent_id')
+				.references('id')
+				.inTable('video');
+
+			table.foreign('event_id')
+				.references('id')
+				.inTable('event');
+		})
 		.createTable('group_leader', table => {
 			table.increments('id').primary();
-			table
-				.integer('user_id')
+			table.integer('user_id')
 				.unsigned()
 				.notNullable();
-			table
-				.integer('group_id')
+			table.integer('group_id')
 				.unsigned()
 				.notNullable();
 
-			table
-				.foreign('user_id')
+			table.foreign('user_id')
 				.references('id')
 				.inTable('user');
 
-			table
-				.foreign('group_id')
+			table.foreign('group_id')
 				.references('id')
 				.inTable('group');
 		})
 		.createTable('location_contact', table => {
 			table.increments('id').primary();
-			table
-				.integer('user_id')
+			table.integer('user_id')
 				.unsigned()
 				.notNullable();
-			table
-				.integer('location_id')
+			table.integer('location_id')
 				.unsigned()
 				.notNullable();
 
-			table
-				.foreign('user_id')
+			table.foreign('user_id')
 				.references('id')
 				.inTable('user');
 
-			table
-				.foreign('location_id')
+			table.foreign('location_id')
 				.references('id')
 				.inTable('location');
+		})
+		.createTable('group_streamer', table => {
+			table.increments('id').primary();
+			table.integer('user_id')
+				.unsigned();
+			table.integer('group_id')
+				.unsigned();
+			table.boolean('default');
+
+			table.foreign('user_id')
+				.references('id')
+				.inTable('user');
+
+			table.foreign('group_id')
+				.references('id')
+				.inTable('group');
+		})
+		.createTable('group_speaker', table => {
+			table.increments('id').primary();
+			table.integer('user_id')
+				.unsigned();
+			table.integer('group_id')
+				.unsigned();
+
+			table.foreign('user_id')
+				.references('id')
+				.inTable('user');
+
+			table.foreign('group_id')
+				.references('id')
+				.inTable('group');
+		})
+		.createTable('user_group', table => {
+			table.increments('id').primary();
+			table.integer('user_id')
+				.unsigned();
+			table.integer('group_id')
+				.unsigned();
+
+			table.foreign('user_id')
+				.references('id')
+				.inTable('user');
+
+			table.foreign('group_id')
+				.references('id')
+				.inTable('group');
 		});
+
 };
 
-exports.down = function(knex) {
+exports.down = knex => {
 	return knex.schema
+		.dropTable('user_group')
+		.dropTable('group_streamer')
+		.dropTable('group_speaker')
 		.dropTable('location_contact')
 		.dropTable('group_leader')
+		.dropTable('video')
 		.dropTable('event')
 		.dropTable('location')
 		.dropTable('group')
