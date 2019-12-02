@@ -173,6 +173,52 @@ exports.up = knex => {
 				.foreign('group_id')
 				.references('id')
 				.inTable('group');
+		})
+		.createTable('event_streamer', table => {
+			table.increments('id').primary();
+			table.integer('user_id').unsigned();
+			table.integer('event_id').unsigned();
+
+			table
+				.foreign('user_id')
+				.references('id')
+				.inTable('user');
+
+			table
+				.foreign('event_id')
+				.references('id')
+				.inTable('event');
+		})
+		.createTable('event_presentation', table => {
+			table.increments('id').primary();
+			table.integer('user_id').unsigned();
+			table.integer('event_id').unsigned();
+			table.string('title');
+
+			table
+				.foreign('user_id')
+				.references('id')
+				.inTable('user');
+
+			table
+				.foreign('event_id')
+				.references('id')
+				.inTable('event');
+		})
+		.createTable('highlighter', table => {
+			table.increments('id').primary();
+			table.integer('highlighter_id').unsigned();
+			table.integer('video_id').unsigned();
+
+			table
+				.foreign('highlighter_id')
+				.references('id')
+				.inTable('user');
+
+			table
+				.foreign('video_id')
+				.references('id')
+				.inTable('video');
 		});
 };
 
@@ -181,6 +227,9 @@ exports.up = knex => {
  */
 exports.down = knex => {
 	return knex.schema
+		.dropTable('highlighter')
+		.dropTable('event_presentation')
+		.dropTable('event_streamer')
 		.dropTable('user_group')
 		.dropTable('group_streamer')
 		.dropTable('group_speaker')
