@@ -22,7 +22,7 @@ exports.up = knex => {
 			table.string('meetup_url_name');
 			table.integer('meetup_weekday').unsigned();
 			table.integer('meetup_week').unsigned();
-			table.datetime('meetup_time');
+			table.time('meetup_time', { precision: 0 });
 			table.integer('mgmt_team_contact_id').unsigned();
 			table.string('logo_link');
 
