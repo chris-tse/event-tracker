@@ -1,29 +1,36 @@
 {
-  "name": "event-tracker-api",
-  "description": "API server for tracking Techlahoma events and videos",
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/chris-tse/event-tracker-api.git"
-  },
-  "version": "1.0.0",
-  "main": "index.js",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
-  "dependencies": {
-    "dotenv": "^8.2.0",
-    "express": "^4.17.1",
-    "knex": "^0.20.3",
-    "pg": "^7.14.0"
-  },
-  "devDependencies": {
-    "babel-eslint": "^10.0.3",
-    "eslint": "^6.7.2",
-    "eslint-plugin-babel": "^5.3.0",
-    "eslint-plugin-jsdoc": "^18.2.0",
-    "prettier": "^1.19.1"
-  }
+    "name": "event-tracker-api",
+    "description": "API server for tracking Techlahoma events and videos",
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/chris-tse/event-tracker-api.git"
+    },
+    "version": "1.0.0",
+    "main": "index.js",
+    "scripts": {
+        "test": "echo \"Error: no test specified\" && exit 1"
+    },
+    "keywords": [],
+    "author": "",
+    "license": "ISC",
+    "dependencies": {
+        "@babel/runtime": "^7.7.4",
+        "@hapi/hapi": "^18.4.0",
+        "dotenv": "^8.2.0",
+        "hapi-auth-jwt2": "^8.8.1",
+        "knex": "^0.20.2",
+        "pg": "^7.13.0"
+    },
+    "devDependencies": {
+        "@babel/cli": "^7.7.4",
+        "@babel/core": "^7.7.4",
+        "@babel/plugin-transform-runtime": "^7.7.4",
+        "@babel/preset-env": "^7.7.4",
+        "@types/knex": "^0.16.1",
+        "babel-eslint": "^10.0.3",
+        "eslint": "^6.7.2",
+        "eslint-plugin-babel": "^5.3.0",
+        "eslint-plugin-jsdoc": "^18.2.0",
+        "prettier": "^1.19.1"
+    }
 }

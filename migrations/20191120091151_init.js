@@ -186,6 +186,61 @@ exports.up = knex => {
 				.foreign('group_id')
 				.references('id')
 				.inTable('group');
+		})
+		.createTable('event_streamer', table => {
+			table
+				.uuid('id')
+				.primary()
+				.defaultTo(knex.raw('uuid_generate_v4()'));
+			table.uuid('user_id');
+			table.uuid('event_id');
+
+			table
+				.foreign('user_id')
+				.references('id')
+				.inTable('user');
+
+			table
+				.foreign('event_id')
+				.references('id')
+				.inTable('event');
+		})
+		.createTable('event_presentation', table => {
+			table
+				.uuid('id')
+				.primary()
+				.defaultTo(knex.raw('uuid_generate_v4()'));
+			table.uuid('user_id');
+			table.uuid('event_id');
+			table.string('title');
+
+			table
+				.foreign('user_id')
+				.references('id')
+				.inTable('user');
+
+			table
+				.foreign('event_id')
+				.references('id')
+				.inTable('event');
+		})
+		.createTable('highlighter', table => {
+			table
+				.uuid('id')
+				.primary()
+				.defaultTo(knex.raw('uuid_generate_v4()'));
+			table.uuid('highlighter_id');
+			table.uuid('video_id');
+
+			table
+				.foreign('highlighter_id')
+				.references('id')
+				.inTable('user');
+
+			table
+				.foreign('video_id')
+				.references('id')
+				.inTable('video');
 		});
 };
 
@@ -194,6 +249,9 @@ exports.up = knex => {
  */
 exports.down = knex => {
 	return knex.schema
+		.dropTable('highlighter')
+		.dropTable('event_presentation')
+		.dropTable('event_streamer')
 		.dropTable('user_group')
 		.dropTable('group_streamer')
 		.dropTable('group_speaker')
