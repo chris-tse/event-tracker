@@ -1,4 +1,7 @@
 import Hapi from '@hapi/hapi';
+import indexRoutes from './routes/index';
+
+const routes = [].concat(indexRoutes);
 
 function validate() {
 	return { isValid: true };
@@ -18,6 +21,8 @@ const init = async () => {
 	});
 
 	server.auth.default('token');
+
+	server.route(routes);
 
 	await server.start();
 	console.log(`Server running on ${server.info.uri}`);
