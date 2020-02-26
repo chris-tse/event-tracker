@@ -8,6 +8,9 @@
     "version": "1.0.0",
     "main": "index.js",
     "scripts": {
+        "build": "babel src/ -d build/",
+        "watch": "babel src/ -d build/ --watch",
+        "update:db": "node build/scripts/updateDB.js",
         "test": "echo \"Error: no test specified\" && exit 1"
     },
     "keywords": [],
@@ -32,5 +35,8 @@
         "eslint-plugin-babel": "^5.3.0",
         "eslint-plugin-jsdoc": "^18.2.0",
         "prettier": "^1.19.1"
+    },
+    "engines": {
+        "node": ">=13.7.0"
     }
 }
