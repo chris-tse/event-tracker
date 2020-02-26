@@ -3,7 +3,8 @@
  */
 exports.seed = knex => {
 	// Deletes ALL existing entries
-	return knex('group').del()
+	return knex('group')
+		.del()
 		.then(() => {
 			// Inserts seed entries
 			return knex('group').insert([
@@ -14,12 +15,12 @@ exports.seed = knex => {
 				},
 				{
 					name: 'OKC SQL Server',
-					abbreviation: 'OKSQL'
+					abbreviation: 'OKSQL',
 				},
 				{
 					name: 'OKC-Sharp',
-					abbreviation: 'OKC#'
-				}
+					abbreviation: 'OKC#',
+				},
 			]);
 		});
 };
