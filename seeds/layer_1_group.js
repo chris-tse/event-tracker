@@ -12,14 +12,17 @@ exports.seed = knex => {
 					name: 'freeCodeCamp OKC',
 					abbreviation: 'FCCOKC',
 					twitter_handle: 'freecodecampokc',
+					meetup_url_name: 'FreeCodeCampOKC',
 				},
 				{
-					name: 'OKC SQL Server',
-					abbreviation: 'OKSQL',
+					name: 'CocoaHeads OKC',
+					abbreviation: 'CCHOKC',
+					meetup_url_name: 'CocoaHeads-OKC',
 				},
 				{
 					name: 'OKC-Sharp',
 					abbreviation: 'OKC#',
+					meetup_url_name: 'OKC-Sharp',
 				},
 			]);
 		});
