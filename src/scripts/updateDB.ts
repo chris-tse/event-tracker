@@ -1,6 +1,11 @@
-// @flow
 import { destroyConnection, getGroups } from '../utils/db';
 import { getUpcomingEvents } from '../utils/meetup';
+
+type DBMeetupGroup = {
+	id: number;
+	name: string;
+	meetup_url_name: string;
+};
 
 async function main() {
 	let groups;
