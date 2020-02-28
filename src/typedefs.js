@@ -1,13 +1,20 @@
-/**
- * @typedef {Object} MeetupGroup
- * @property {string} name Full name of groups
- * @property {string} urlname Name used in URL parameter
- */
+// @flow
 
-/**
- * @typedef {Object} MeetupEvent
- * @property {number} id ID of event
- * @property {string} name Name of event
- * @property {number} time Start time of event in microseconds
- * @property {MeetupGroup} group Group details
- */
+export type DBMeetupGroup = {
+	id: number,
+	name: string,
+	meetup_url_name: string,
+};
+
+export type MeetupGroup = {
+	id: number,
+	name: string,
+	urlname: string,
+};
+
+export type MeetupEvent = {
+	id: number,
+	name: string,
+	time: number,
+	group: MeetupGroup,
+};

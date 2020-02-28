@@ -10,8 +10,7 @@
     "scripts": {
         "build": "babel src/ -d build/",
         "watch": "babel src/ -d build/ --watch",
-        "update:db": "node build/scripts/updateDB.js",
-        "types": "rm types.d.ts && jsdoc -t node_modules/tsd-jsdoc/dist  src/typedefs.js && mv out/types.d.ts . && rm -rf out",
+        "update:db": "npm run build && node build/scripts/updateDB.js",
         "test": "echo \"Error: no test specified\" && exit 1"
     },
     "keywords": [],
@@ -31,14 +30,14 @@
         "@babel/core": "^7.7.4",
         "@babel/plugin-transform-runtime": "^7.7.4",
         "@babel/preset-env": "^7.7.4",
+        "@babel/preset-flow": "^7.8.3",
         "@types/knex": "^0.16.1",
         "babel-eslint": "^10.0.3",
         "eslint": "^6.7.2",
         "eslint-plugin-babel": "^5.3.0",
         "eslint-plugin-jsdoc": "^18.2.0",
-        "jsdoc": "^3.6.3",
-        "prettier": "^1.19.1",
-        "tsd-jsdoc": "^2.4.0"
+        "flow-bin": "^0.119.1",
+        "prettier": "^1.19.1"
     },
     "engines": {
         "node": ">=13.7.0"
