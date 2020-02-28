@@ -1,46 +1,43 @@
-import knex from 'knex';
-import fetch from 'isomorphic-fetch';
-import options from '../../knexfile';
-
-async function getGroups() {
-	const db = knex(options);
-
-	return db('group')
-		.select('meetup_url_name')
-		.then(res => res)
-		.finally(() => {
-			db.destroy();
-		});
-}
-
-// function getLocation() {
-// 	const db = knex(options);
-
-// 	return db('location')
-// 		.where('name', 'StarSpace46')
-// 		.then(res => res)
-// 		.finally(() => {
-// 			db.destroy();
-// 		});
-// }
+// @flow
+import { destroyConnection, getGroups } from '../utils/db';
+import { getUpcomingEvents } from '../utils/meetup';
 
 async function main() {
-	const groups = await getGroups();
-	const groupMeetupUrlNames = groups.map(g => g.meetup_url_name);
+	let groups;
+	let upcomingEventsNested;
 
-	console.log(groupMeetupUrlNames);
+	try {
+		groups = await getGroups();
+	} catch (error) {
+		console.error(error, 'DB Error: Could not retrieve groups');
+		process.exit(1);
+		return;
+	}
 
-	const fetches = [];
+	const groupMeetupUrlNames = ['sjkdfhsdhfjksdhkjfsdf'];
+	// const groupMeetupUrlNames = groups.map(g => g.meetup_url_name);
 
-	groupMeetupUrlNames.forEach(name => {
-		fetches.push(fetch(`https://api.meetup.com/${name}/events?only=id,name,time`));
-	});
+	try {
+		upcomingEventsNested = await getUpcomingEvents(groupMeetupUrlNames);
+	} catch (error) {
+		console.error(error, 'Unable to fetch upcoming events');
+		process.exit(1);
+		return;
+	}
 
-	let responses = await Promise.all(fetches);
+	const upcomingEvents = upcomingEventsNested.reduce((acc, next) => acc.concat(next), []);
 
-	let data = await Promise.all(responses.map(res => res.json()));
+	console.log(upcomingEvents);
 
-	console.log(data);
+	// For each upcomingEvent: event
+	// Check if event ID in event table
+	//	a. If so, check if pertinent details have changed, update those if so
+	//		i. Pull dbevent where dbevent.meetup_id === event.id
+	//		ii. Check whether dbevent start_time, title is different from event.time and event.name
+	//	b. If not, insert new event
+	//
+
+	destroyConnection();
 }
 
 main();
