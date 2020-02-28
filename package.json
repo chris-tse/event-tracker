@@ -18,7 +18,7 @@
     "license": "ISC",
     "dependencies": {
         "@babel/runtime": "^7.7.4",
-        "@hapi/hapi": "^18.4.0",
+        "@hapi/hapi": "^18.4.1",
         "dotenv": "^8.2.0",
         "hapi-auth-jwt2": "^8.8.1",
         "isomorphic-fetch": "^2.2.1",
