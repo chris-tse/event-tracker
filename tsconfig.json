@@ -4,6 +4,7 @@
 		"rootDir": "./src",
 		"allowJs": true,
 		"target": "es5",
+		"lib": ["ESNext.Array"],
 		"baseUrl": "./src",
 		"paths": {
 			"@root/*": ["../*"],

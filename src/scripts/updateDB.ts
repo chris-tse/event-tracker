@@ -24,16 +24,16 @@ async function main() {
 
 	console.log(groupMeetupUrlNames);
 
-	// try {
-	// 	upcomingEventsNested = await getUpcomingEvents(groupMeetupUrlNames);
-	// } catch (error) {
-	// 	console.error(error, 'Unable to fetch upcoming events');
-	// 	process.exit(1);
-	// }
+	try {
+		upcomingEventsNested = await getUpcomingEvents(groupMeetupUrlNames);
+	} catch (error) {
+		console.error(error, 'Unable to fetch upcoming events');
+		process.exit(1);
+	}
 
 	// const upcomingEvents = upcomingEventsNested.reduce((acc, next) => acc.concat(next), []);
 
-	// console.log(upcomingEvents);
+	console.log(upcomingEventsNested.flat());
 
 	// For each upcomingEvent: event
 	// Check if event ID in event table

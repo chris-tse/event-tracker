@@ -8,9 +8,10 @@
     "version": "1.0.0",
     "main": "index.js",
     "scripts": {
-        "build": "babel src/ -d build/",
-        "watch": "babel src/ -d build/ --watch",
-        "update:db": "npm run build && node build/scripts/updateDB.js",
+        "dev:script": "nodemon -e ts  --exec \"npm run update:db\"",
+        "ts:build": "babel src/ -d build/",
+        "ts:watch": "babel src/ -d build/ --watch",
+        "update:db": "npm run ts:build && node build/scripts/updateDB.js",
         "test": "echo \"Error: no test specified\" && exit 1"
     },
     "keywords": [],
@@ -32,7 +33,6 @@
         "@babel/runtime": "^7.7.4",
         "@types/hapi": "^18.0.3",
         "@types/hapi-auth-jwt2": "^8.6.1",
-        "@types/isomorphic-fetch": "0.0.35",
         "@types/knex": "^0.16.1",
         "@types/node": "^13.7.6",
         "babel-eslint": "^10.0.3",
