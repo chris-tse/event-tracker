@@ -9,14 +9,14 @@ exports.seed = knex => {
 			// Inserts seed entries
 			return knex('event').insert([
 				{
-					id: '267087235',
-					name: 'Promises and Async/Await with Vance Lucas',
-					time: 1583694000000,
+					meetup_id: '267087235',
+					title: 'Promises and Async/Await with Vance Lucas',
+					start_time: 1583694000,
 				},
 				{
-					id: '267439534',
-					name: 'GraphQL with Thomas Evans',
-					time: 1583170200000,
+					meetup_id: '267439534',
+					title: 'GraphQL with Thomas Evans',
+					start_time: 1583170200,
 				},
 			]);
 		});

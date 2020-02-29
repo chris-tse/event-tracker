@@ -1,38 +1,39 @@
-import { destroyConnection, getGroups } from '../utils/db';
+import { getGroups } from '../queries/groups';
 import { getUpcomingEvents } from '../utils/meetup';
-
-type DBMeetupGroup = {
-	id: number;
-	name: string;
-	meetup_url_name: string;
-};
+import * as Knex from 'knex';
+import { DBMeetupGroup } from '@typedefs/db';
+import { MeetupEvent } from '@typedefs/meetup';
 
 async function main() {
-	let groups;
-	let upcomingEventsNested;
+	// Initialize db connection to pass into queries
+	const knex = Knex(require('../knexfile'));
+
+	let groups: DBMeetupGroup[];
+	let upcomingEventsNested: MeetupEvent[][];
 
 	try {
-		groups = await getGroups();
+		groups = await getGroups(knex);
 	} catch (error) {
-		console.error(error, 'DB Error: Could not retrieve groups');
+		console.error('DB Error: Could not retrieve groups', error);
 		process.exit(1);
-		return;
 	}
 
-	const groupMeetupUrlNames = ['sjkdfhsdhfjksdhkjfsdf'];
-	// const groupMeetupUrlNames = groups.map(g => g.meetup_url_name);
+	const groupMeetupUrlNames = groups.map(g => {
+		return g.meetup_url_name;
+	});
 
-	try {
-		upcomingEventsNested = await getUpcomingEvents(groupMeetupUrlNames);
-	} catch (error) {
-		console.error(error, 'Unable to fetch upcoming events');
-		process.exit(1);
-		return;
-	}
+	console.log(groupMeetupUrlNames);
 
-	const upcomingEvents = upcomingEventsNested.reduce((acc, next) => acc.concat(next), []);
+	// try {
+	// 	upcomingEventsNested = await getUpcomingEvents(groupMeetupUrlNames);
+	// } catch (error) {
+	// 	console.error(error, 'Unable to fetch upcoming events');
+	// 	process.exit(1);
+	// }
 
-	console.log(upcomingEvents);
+	// const upcomingEvents = upcomingEventsNested.reduce((acc, next) => acc.concat(next), []);
+
+	// console.log(upcomingEvents);
 
 	// For each upcomingEvent: event
 	// Check if event ID in event table
@@ -42,7 +43,7 @@ async function main() {
 	//	b. If not, insert new event
 	//
 
-	destroyConnection();
+	knex.destroy();
 }
 
 main();
