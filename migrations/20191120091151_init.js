@@ -54,8 +54,8 @@ exports.up = knex => {
 				.uuid('id')
 				.primary()
 				.defaultTo(knex.raw('uuid_generate_v4()'));
-			table.uuid('group_id').notNullable();
-			table.uuid('location_id').notNullable();
+			table.uuid('group_id');
+			table.uuid('location_id');
 			table.string('meetup_id');
 			table.string('title');
 			table.datetime('start_time');
