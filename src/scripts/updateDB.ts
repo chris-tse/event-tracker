@@ -1,39 +1,48 @@
 import { getGroups } from '../queries/groups';
+import { getEventByMeetupID } from '../queries/events';
 import { getUpcomingEvents } from '../utils/meetup';
 import * as Knex from 'knex';
-import { DBMeetupGroup } from '@typedefs/db';
+import { DBMeetupGroup, DBMeetupEvent } from '@typedefs/db';
 import { MeetupEvent } from '@typedefs/meetup';
 
 async function main() {
 	// Initialize db connection to pass into queries
 	const knex = Knex(require('../knexfile'));
 
-	let groups: DBMeetupGroup[];
-	let upcomingEventsNested: MeetupEvent[][];
+	// let groups: DBMeetupGroup[];
+	// let upcomingEventsNested: MeetupEvent[][];
+
+	// try {
+	// 	groups = await getGroups(knex);
+	// } catch (error) {
+	// 	console.error('DB Error: Could not retrieve groups', error);
+	// 	process.exit(1);
+	// }
+
+	// const groupMeetupUrlNames = groups.map(g => {
+	// 	return g.meetup_url_name;
+	// });
+
+	// console.log(groupMeetupUrlNames);
+
+	// try {
+	// 	upcomingEventsNested = await getUpcomingEvents(groupMeetupUrlNames);
+	// } catch (error) {
+	// 	console.error(error, 'Unable to fetch upcoming events');
+	// 	process.exit(1);
+	// }
+
+	// const upcomingEvents = upcomingEventsNested.flat();
+
+	// console.log(upcomingEvents);
+
+	let events: DBMeetupEvent[];
 
 	try {
-		groups = await getGroups(knex);
-	} catch (error) {
-		console.error('DB Error: Could not retrieve groups', error);
-		process.exit(1);
-	}
+		events = await getEventByMeetupID(knex);
+	} catch (error) {}
 
-	const groupMeetupUrlNames = groups.map(g => {
-		return g.meetup_url_name;
-	});
-
-	console.log(groupMeetupUrlNames);
-
-	try {
-		upcomingEventsNested = await getUpcomingEvents(groupMeetupUrlNames);
-	} catch (error) {
-		console.error(error, 'Unable to fetch upcoming events');
-		process.exit(1);
-	}
-
-	// const upcomingEvents = upcomingEventsNested.reduce((acc, next) => acc.concat(next), []);
-
-	console.log(upcomingEventsNested.flat());
+	console.log(events);
 
 	// For each upcomingEvent: event
 	// Check if event ID in event table
