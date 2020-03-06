@@ -1,48 +1,38 @@
-import { getGroups } from '../queries/groups';
-import { getEventByMeetupID } from '../queries/events';
-import { getUpcomingEvents } from '../utils/meetup';
 import * as Knex from 'knex';
+import { getGroups } from '../queries/groups';
+import { getUpcomingEvents } from '../utils/meetup';
 import { DBMeetupGroup, DBMeetupEvent } from '@typedefs/db';
 import { MeetupEvent } from '@typedefs/meetup';
+import { updateDBFromMeetupEventID } from '../utils/db';
 
 async function main() {
 	// Initialize db connection to pass into queries
 	const knex = Knex(require('../knexfile'));
 
-	// let groups: DBMeetupGroup[];
-	// let upcomingEventsNested: MeetupEvent[][];
-
-	// try {
-	// 	groups = await getGroups(knex);
-	// } catch (error) {
-	// 	console.error('DB Error: Could not retrieve groups', error);
-	// 	process.exit(1);
-	// }
-
-	// const groupMeetupUrlNames = groups.map(g => {
-	// 	return g.meetup_url_name;
-	// });
-
-	// console.log(groupMeetupUrlNames);
-
-	// try {
-	// 	upcomingEventsNested = await getUpcomingEvents(groupMeetupUrlNames);
-	// } catch (error) {
-	// 	console.error(error, 'Unable to fetch upcoming events');
-	// 	process.exit(1);
-	// }
-
-	// const upcomingEvents = upcomingEventsNested.flat();
-
-	// console.log(upcomingEvents);
-
-	let events: DBMeetupEvent[];
+	let dbGroups: DBMeetupGroup[];
 
 	try {
-		events = await getEventByMeetupID(knex);
-	} catch (error) {}
+		dbGroups = await getGroups(knex);
+	} catch (error) {
+		console.error('DB Error: Could not retrieve groups', error);
+		process.exit(1);
+	}
 
-	console.log(events);
+	const groupMeetupUrlNames = dbGroups.map(g => g.meetup_url_name);
+
+	let upcomingMeetupEventsNested: MeetupEvent[][];
+
+	try {
+		upcomingMeetupEventsNested = await getUpcomingEvents(groupMeetupUrlNames);
+	} catch (error) {
+		console.error(error, 'Unable to fetch upcoming events');
+		process.exit(1);
+	}
+
+	const upcomingMeetupEvents = upcomingMeetupEventsNested.flat();
+	const upcomingMeetupEventIDs = upcomingMeetupEvents.map(event => event.id).map(String);
+
+	await Promise.all(upcomingMeetupEventIDs.map(id => updateDBFromMeetupEventID(knex, id)));
 
 	// For each upcomingEvent: event
 	// Check if event ID in event table

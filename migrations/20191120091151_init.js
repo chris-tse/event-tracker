@@ -60,6 +60,7 @@ exports.up = knex => {
 			table.string('title');
 			table.datetime('start_time');
 			table.datetime('end_time');
+			table.datetime('last_updated');
 			table.boolean('stream');
 			table.boolean('speaker_form');
 			table.boolean('venue_booked');

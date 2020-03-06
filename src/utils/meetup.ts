@@ -7,7 +7,7 @@ import { MeetupEvent } from '@typedefs/meetup';
  */
 export async function getUpcomingEvents(meetupUrlNames: string[]): Promise<MeetupEvent[][]> {
 	const requests = meetupUrlNames.map(name => {
-		return fetch(`https://api.meetup.com/${name}/events?only=id,name,time,group`);
+		return fetch(`https://api.meetup.com/${name}/events?only=id,name,time,group,updated`);
 	});
 
 	return Promise.all(requests.map(req => req.then(res => res.json())));
