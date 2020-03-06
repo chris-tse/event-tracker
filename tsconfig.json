@@ -7,7 +7,6 @@
 		"lib": ["ESNext.Array"],
 		"baseUrl": "./src",
 		"paths": {
-			"@root/*": ["../*"],
 			"@typedefs/*": ["types/*"]
 		}
 	},
